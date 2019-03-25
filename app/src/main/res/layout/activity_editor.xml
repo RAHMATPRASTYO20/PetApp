@@ -91,7 +91,8 @@
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_weight"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number|numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
         <TextView
             android:layout_width="0dp"
