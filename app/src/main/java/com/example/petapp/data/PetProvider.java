@@ -68,7 +68,7 @@ public class PetProvider extends ContentProvider {
             case PET_ID :
                 return PetContract.PetEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalArgumentException("Uknoown URI " + uri + " with code match " + match);
+                throw new IllegalArgumentException("Unknown URI " + uri + " with code match " + match);
         }
     }
 
@@ -84,10 +84,11 @@ public class PetProvider extends ContentProvider {
         }
     }
 
+    //validasi data untuk memastikan data yang dimasukan benar
     private Uri insertPet(Uri uri, ContentValues values) {
         String name = values.getAsString(PetContract.PetEntry.COLUMN_PET_NAME);
         if (name == null || name.isEmpty()) {
-            Toast.makeText(getContext(), "Pet requires a falid name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Pet requires a valid name", Toast.LENGTH_SHORT).show();
             throw new IllegalArgumentException("Pet requires a valid name");
         }
 
@@ -116,11 +117,27 @@ public class PetProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        // Get writeable database
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+
+        final int match = sMatcher.match(uri);
+        switch (match) {
+            case PETS:
+                // Delete all rows that match the selection and selection args
+                return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
+            case PET_ID:
+                // Delete a single row given by the ID in the URI
+                selection = PetContract.PetEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+     return database.update(PetContract.PetEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 }

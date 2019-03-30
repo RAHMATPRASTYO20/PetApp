@@ -154,7 +154,7 @@ public class EditorActivity extends AppCompatActivity {
 
     private void deletePet() {
         String[] args = {String.valueOf(id)};
-        petDbHelper.getWritableDatabase().delete(PetContract.PetEntry.TABLE_NAME, PetContract.PetEntry._ID+ "=?" , args);
+        getContentResolver().delete(PetContract.PetEntry.CONTENT_URI, PetContract.PetEntry._ID+ "=?" , args);
     }
 
     private void updatePet() {
@@ -163,7 +163,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(PetContract.PetEntry.COLUMN_PET_BREED,mBreed);
         values.put(PetContract.PetEntry.COLUMN_PET_GENDER,mGender);
         values.put(PetContract.PetEntry.COLUMN_PET_WEIGHT,mWeight);
-        petDbHelper.getWritableDatabase().update(PetContract.PetEntry.TABLE_NAME,values,
+        getContentResolver().update(PetContract.PetEntry.CONTENT_URI,values,
                 PetContract.PetEntry._ID + "=" + id, null);
     }
 }
