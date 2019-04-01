@@ -1,12 +1,9 @@
-package com.example.petapp.data;
+package com.example.petapp;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.example.petapp.MainActivity;
-import com.example.petapp.R;
 
 public class SpalshActivity extends AppCompatActivity {
 
@@ -20,7 +17,7 @@ public class SpalshActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent s = new Intent(SpalshActivity.this, MainActivity.class);
+                Intent s = new Intent(SpalshActivity.this, SignInActivity.class);
                 startActivity(s);
                 finish();
             }
